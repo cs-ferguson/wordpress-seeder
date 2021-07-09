@@ -1,0 +1,12 @@
+<!-- wp:paragraph -->
+<p>The work of an intellectual is not to mould the political will of others; it is, through the analyses that he does in his own field, to re-examine evidence and assumptions, to shake up habitual ways of working and thinking, to dissipate conventional familiarities, to re-evaluate rules and institutions and to participate in the formation of a political will (where he has his role as citizen to play).</p>
+<!-- /wp:paragraph -->
+<!-- wp:image {"id":0} -->
+<figure class="wp-block-image size-full"><img src="ferriswheel.jpg" alt="" class=""/></figure>
+<!-- /wp:image -->
+<!-- wp:paragraph -->
+<p>The senses do not enable us to cognize any entity in its Being; they merely serve to announce the ways in which "external"; Things within-the-world are useful or harmful for human creatures encumbered with bodies....they tell us nothing about entities in their Being.</p>
+<!-- /wp:paragraph -->
+<!-- wp:image {"id":0} -->
+<figure class="wp-block-image size-full"><img src="max-ostrozhinskiy-1nNtM9P-m0I-unsplash.jpg" alt="" class=""/></figure>
+<!-- /wp:image -->
