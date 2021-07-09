@@ -4,6 +4,7 @@ require_once('/var/_seeder/inc/class-image-block.php');
 require_once('/var/_seeder/inc/class-seeder-post.php');
 require_once('/var/_seeder/taxonomies.php');
 require_once('/var/_seeder/quotes.php');
+require_once('/var/_seeder/titles.php');
 
 function transformTitle($filename)
 {
@@ -119,7 +120,12 @@ for( $x = 0; $x < $num_posts_to_generate; $x++ ){
     shuffle( $content_array );
     $post_content = implode( "", $content_array );
 
-    // var_dump($post_content);
+    $post_title = "Auto-generated Content";
+    if( is_array($titles) ){
+        $title_key = mt_rand( 0, count($titles) );
+        $post_title = $titles[$title_key];
+    }
+
 
     $seeder_post = new SeederPost( $post_content, 'Auto-generated Content', $media_info, $taxonomy_info );  
     $seeder_post->uploadToWordPress();
