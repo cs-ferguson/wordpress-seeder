@@ -74,7 +74,6 @@ $seed_directory_iterator = new DirectoryIterator($seed_content_directory);
 $allowed_contenttypes = array('txt');
 foreach ($seed_directory_iterator as $fileinfo) {
     if( $fileinfo->valid() ){
-        var_dump($fileinfo);
         if ( !$fileinfo->isDot() && in_array( $fileinfo->getExtension(), $allowed_contenttypes ) ) {
             $filename = basename($fileinfo->getFilename(), '.txt');
             $post_title = transformTitle($filename);
