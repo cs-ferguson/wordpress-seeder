@@ -8,7 +8,6 @@ require_once('/var/_seeder/titles.php');
 
 //get options 
 $options = getopt( null, [ 'auto-gen::','earliest::']);
-var_dump( $options );
 //santise options
 $autogen = (int) $options['auto-gen'];
 $date_now = new DateTime();
