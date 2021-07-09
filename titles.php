@@ -7,7 +7,7 @@
         "Alex Mathie: Super-sub",
         "Being and Time",
         "Sein und Zeit",
-        "Bubbles, Spheres and Foams &em; the work of Peter Sloterijk",
+        "Bubbles, Spheres and Foams - the work of Peter Sloterijk",
         "Archaeology of Knowledge",
         "New Model Island",
         "Universal Principles of Design",
