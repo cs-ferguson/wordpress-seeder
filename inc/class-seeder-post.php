@@ -2,7 +2,7 @@
 
 class SeederPost {
 
-    public function __construct( $post_content, $post_title, $media_info, $taxonomy_info ) {
+    public function __construct( $post_content, $post_title, $media_info, $taxonomy_info, $earliest_date ) {
         $this->post_title       = $post_title;
         $this->html_content     = $post_content;
         $this->media_info       = $media_info;
@@ -10,6 +10,8 @@ class SeederPost {
         $this->stripped_content = $post_content;
 		$this->image_blocks     = $this->parseImageBlocks();
         $this->wp_post_id       = null;
+        $this->earliest_date    = $earliest_date;
+
 	}
 
     private function parseImageBlocks() {
@@ -92,7 +94,7 @@ class SeederPost {
 
     /* randomly generates a publish date */
     private function generateDate() {
-        $start = new DateTime('2015-02-03T06:45:00Z');
+        $start = $this->earliest_date;
         $end = new DateTime('now');
         $randomTimestamp = mt_rand($start->getTimestamp(), $end->getTimestamp());
         $randomDate = new DateTime();
@@ -130,9 +132,6 @@ class SeederPost {
         return $term_ids;
 
     }
-
-
-
 }
 
 

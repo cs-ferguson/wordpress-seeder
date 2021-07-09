@@ -6,6 +6,19 @@ require_once('/var/_seeder/taxonomies.php');
 require_once('/var/_seeder/quotes.php');
 require_once('/var/_seeder/titles.php');
 
+//get options 
+$options = getopt( null, [ 'auto-gen::','earliest::']);
+var_dump( $options );
+//santise options
+$autogen = (int) $options['auto-gen'];
+$date_now = new DateTime();
+try {
+    $earliest_date = new DateTime( $options['earliest'] );
+} catch( Exception $e ) {
+    echo 'invalid date entered';
+    $earliest_date = new DateTime('2015-01-01');
+}
+
 function transformTitle($filename)
 {
     return ucwords(str_replace('-',' ',$filename));
@@ -79,7 +92,7 @@ foreach ($seed_directory_iterator as $fileinfo) {
             $filename = basename($fileinfo->getFilename(), '.txt');
             $post_title = transformTitle($filename);
             $post_content = file_get_contents($seed_content_directory . $fileinfo->getFilename());
-            $seeder_post = new SeederPost( $post_content, $post_title, $media_info, $taxonomy_info );  
+            $seeder_post = new SeederPost( $post_content, $post_title, $media_info, $taxonomy_info, $earliest_date );  
             $seeder_post->uploadToWordPress();
             $seeder_post->setFeaturedImage();   
             $seeder_post->addTaxonomies();
@@ -87,7 +100,7 @@ foreach ($seed_directory_iterator as $fileinfo) {
     }
 }
 /* random content */
-$num_posts_to_generate = 1;
+$num_posts_to_generate = $autogen;
 $min_paragraphs = 3;
 $max_paragraphs = 16;
 $min_images = 1;
@@ -127,13 +140,11 @@ for( $x = 0; $x < $num_posts_to_generate; $x++ ){
     }
 
 
-    $seeder_post = new SeederPost( $post_content, 'Auto-generated Content', $media_info, $taxonomy_info );  
+    $seeder_post = new SeederPost( $post_content, $post_title, $media_info, $taxonomy_info, $earliest_date );  
     $seeder_post->uploadToWordPress();
     $seeder_post->setFeaturedImage();   
     $seeder_post->addTaxonomies();
 }
-
-
 
 
 ?>
