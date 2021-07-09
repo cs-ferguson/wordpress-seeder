@@ -5,8 +5,5 @@
 <figure class="wp-block-image size-full"><img src="darkplace.jpeg" alt="" class=""/></figure>
 <!-- /wp:image -->
 <!-- wp:paragraph -->
-<p>The senses do not enable us to cognize any entity in its Being; they merely serve to announce the ways in which "external"; Things within-the-world are useful or harmful for human creatures encumbered with bodies....they tell us nothing about entities in their Being.</p>
+<p>The post title is generated from the name of the text file. Taxonomies are randomly added from the list of taxonomies set in the taxonomies.php file, and the publish date is generated randomly (dated 2015 onwards - earliest date can be passed as a parameter when running the seeder).</p>
 <!-- /wp:paragraph -->
-<!-- wp:image {"id":0} -->
-<figure class="wp-block-image size-full"><img src="max-ostrozhinskiy-1nNtM9P-m0I-unsplash.jpg" alt="" class=""/></figure>
-<!-- /wp:image -->
