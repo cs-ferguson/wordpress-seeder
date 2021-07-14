@@ -10,12 +10,15 @@ require_once('/var/_seeder/titles.php');
 $options = getopt( null, [ 'auto-gen::','earliest::']);
 //santise options
 $autogen = (int) $options['auto-gen'];
-$date_now = new DateTime();
-try {
-    $earliest_date = new DateTime( $options['earliest'] );
-} catch( Exception $e ) {
-    echo 'invalid date entered';
+if( ! $options['earliest'] ){
     $earliest_date = new DateTime('2015-01-01');
+} else {
+    try {
+        $earliest_date = new DateTime( $options['earliest'] );
+    } catch( Exception $e ) {
+        echo 'invalid date entered';
+        $earliest_date = new DateTime('2015-01-01');
+    }
 }
 
 function transformTitle( $filename ) {
