@@ -169,7 +169,7 @@ for( $x = 0; $x < $num_posts_to_generate; $x++ ){
         shuffle( $headers );
         $para_count = 0;
         $header_count = 0;
-        $paras_since_last_header = null;
+        $paras_since_last_header = 0;
         $last_header_level = null;
 
         foreach( $structure_array as $el_count => $element ){
@@ -181,7 +181,7 @@ for( $x = 0; $x < $num_posts_to_generate; $x++ ){
 
             if( $para_count > 2 && $el_count < ( count($structure_array) - 3 ) ){
                 //if no headers have been inserted yet or more than 2 paras sinc last header 
-                if( ! $paras_since_last_header || $paras_since_last_header > 2 ){
+                if( $paras_since_last_header > 2 ){
                     if( mt_rand(0,1) > 0 ){
                         $header_level   = getHeaderLevel( $last_header_level );
                         $header_type    = 'h' . (int) $header_level;
