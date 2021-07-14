@@ -169,14 +169,14 @@ for( $x = 0; $x < $num_posts_to_generate; $x++ ){
         $paras_since_last_header = null;
         $last_header_level = null;
 
-        foreach( $structure_array as $x => $element ){
+        foreach( $structure_array as $el_count => $element ){
 
             if( $element['type'] == 'p' ){
                 $para_count++;
                 $paras_since_last_header++;
             }
 
-            if( $para_count > 2 && $x < ( count($structure_array) - 3 ) ){
+            if( $para_count > 2 && $el_count < ( count($structure_array) - 3 ) ){
                 //if no headers have been inserted yet or more than 2 paras sinc last header 
                 if( ! $paras_since_last_header || $paras_since_last_header > 2 ){
                     if( mt_rand(0,1) > 0 ){
