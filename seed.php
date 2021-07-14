@@ -18,9 +18,34 @@ try {
     $earliest_date = new DateTime('2015-01-01');
 }
 
-function transformTitle($filename)
-{
+function transformTitle( $filename ) {
     return ucwords(str_replace('-',' ',$filename));
+}
+
+function getHeaderLevel( $last_header_level ) {
+    $next_header_level = 2;
+
+    if( $last_header_level ){
+
+        if( $last_header_level == 2 || $last_header_level == 4 ){
+            if( mt_rand(0,1) > 0 ){
+                $next_header_level = 2;
+            } else {
+                $next_header_level = 3;
+            }
+        }
+
+        if( $last_header_level == 3 ){
+            if( mt_rand(0,1) > 0 ){
+                $next_header_level = 2;
+            } else {
+                $next_header_level = 4;
+            }
+        }
+
+    }
+
+    return $next_header_level;
 }
 
 /*Upload images and store filename in array */
@@ -100,36 +125,106 @@ foreach ($seed_directory_iterator as $fileinfo) {
 }
 /* random content */
 $num_posts_to_generate = $autogen;
-$min_paragraphs = 3;
-$max_paragraphs = 16;
+$min_paragraphs = 5;
+$max_paragraphs = 25;
 $min_images = 1;
-$max_images = ( count($media_info) > 5 ) ? 5 : count($media_info) ;
+$max_images = ( count($media_info) > 6 ) ? 6 : count($media_info) ;
 
 for( $x = 0; $x < $num_posts_to_generate; $x++ ){
 
-    $content_array = array();
-
+    //CHANGE THIS TO GENERATE A STRUCTURE FIRST WITH ITEM TYPE - ITEM TYPE AND KEY, THEN CONSTRUCT CONTENT ARRAY
+    $structure_array = array();
+    //add paras to structure
     if( is_array($quotes) ){
         $num_paragraphs = mt_rand( $min_paragraphs, $max_paragraphs );
-        $rand_keys = array_rand( $quotes, $num_paragraphs );
+        $rand_para_keys = array_rand( $quotes, $num_paragraphs );
+        foreach( $rand_para_keys as $array_key ){
+            $element_info = array(
+                'type'  => 'p',
+                'key'   => $array_key
+            );
+            array_push( $structure_array, $element_info );
+        }
+    }
+    //add images 
+    if( is_array( $media_info )){
+        $num_images = mt_rand( $min_images, $max_images );
+        $rand_img_keys = array_rand( $media_info, $num_images );
+        foreach( $rand_para_keys as $array_key ){
+            $element_info = array(
+                'type'  => 'img',
+                'key'   => $array_key
+            );
+            array_push( $structure_array, $element_info );
+        }
+    }
+    //shuffle structure before adding headers
+    shuffle( $structure_array );
+    //add headers
+    if( is_array( $headers ) ){
 
-        foreach( $rand_keys as $array_key ){
-            $paragraph_content = "<!-- wp:paragraph -->\n<p>{$quotes[$array_key]}</p>\n<!-- /wp:paragraph -->\n";
-            array_push( $content_array, $paragraph_content );
+        shuffle( $headers );
+        $para_count = 0;
+        $header_count = 0;
+        $paras_since_last_header = null;
+        $last_header_level = null;
+
+        foreach( $structure_array as $x => $element ){
+
+            if( $element['type'] == 'p' ){
+                $para_count++;
+                $paras_since_last_header++;
+            }
+
+            if( $para_count > 2 && $x < ( count($structure_array) - 3 ) ){
+                //if no headers have been inserted yet or more than 2 paras sinc last header 
+                if( ! $paras_since_last_header || $paras_since_last_header > 2 ){
+                    if( mt_rand(0,1) > 0 ){
+                        $header_level   = getHeaderLevel( $last_header_level );
+                        $header_type    = 'h' . (int) $header_level;
+                        $element_info   = array(
+                                            'type'  => $header_type,
+                                            'key'   => $header_count
+                                        );
+                        array_splice( $structure_array, $x, 0, $element_info);
+                        //increments
+                        $last_header_level          = $header_level;
+                        $paras_since_last_header    = 0;
+                        $header_count++;
+                    }
+                }
+            }
         }
     }
 
-    if( is_array( $media_info )){
-        $num_images = mt_rand( $min_images, $max_images );
-        $rand_keys = array_rand( $media_info, $num_images );
+    //cycle through sturcture and add to content array
+    $content_array = array();
 
-        foreach( (array) $rand_keys as $array_key ){
+    foreach( $structure_array as $element_info ){
+        //if paragraph
+        if( $element_info['type'] == 'p' ) {
+            $paragraph_content = "<!-- wp:paragraph -->\n<p>{$quotes[$element_info['key']]}</p>\n<!-- /wp:paragraph -->\n";
+            array_push( $content_array, $paragraph_content );
+        } 
+        //if header
+        if( $element_info['type'] == 'h2' || $element_info['type'] == 'h3' || $element_info['type'] == 'h4' ) {
+
+            $heading_level = (int) str_replace( 'h', '', $element_info['type'] );
+            $heading_content = "<!-- wp:heading \{\"level\":{$heading_level}\} -->\n<{$element_info['type']}>{$headers[$element_info['key']]}</{$element_info['type']}>\n<!-- /wp:heading -->\n";
+            array_push( $content_array, $heading_content );
+
+        }
+        //if image 
+        if( $element_info['type'] == 'img' ) {
+            $array_key = $element_info['key'];
             $media_content = "<!-- wp:image {\"id\":{$media_info[$array_key]['id']} } -->\n<figure class=\"wp-block-image size-full\"><img src=\"{$media_info[$array_key]['filename']}\" alt=\"\" class=\"\"/></figure>\n<!-- /wp:image -->\n";
             array_push( $content_array, $media_content );
-        }
+        } 
+
     }
 
     shuffle( $content_array );
+
     $post_content = implode( "", $content_array );
 
     $post_title = "Auto-generated Content";
