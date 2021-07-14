@@ -230,7 +230,7 @@ for( $x = 0; $x < $num_posts_to_generate; $x++ ){
 
     $post_title = "Auto-generated Content";
     if( is_array($titles) ){
-        $title_key = mt_rand( 0, count($titles) );
+        $title_key = mt_rand( 0, count($titles) - 1 );
         $post_title = $titles[$title_key];
     }
 
