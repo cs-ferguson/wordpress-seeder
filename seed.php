@@ -149,8 +149,8 @@ for( $x = 0; $x < $num_posts_to_generate; $x++ ){
     //add images 
     if( is_array( $media_info )){
         $num_images = mt_rand( $min_images, $max_images );
-        $rand_img_keys = array_rand( $media_info, $num_images );
-        foreach( $rand_para_keys as $array_key ){
+        $rand_img_keys = (array) array_rand( $media_info, $num_images );
+        foreach( $rand_img_keys as $array_key ){
             $element_info = array(
                 'type'  => 'img',
                 'key'   => $array_key
