@@ -210,7 +210,7 @@ for( $x = 0; $x < $num_posts_to_generate; $x++ ){
         if( $element_info['type'] == 'h2' || $element_info['type'] == 'h3' || $element_info['type'] == 'h4' ) {
 
             $heading_level = (int) str_replace( 'h', '', $element_info['type'] );
-            $heading_content = "<!-- wp:heading \{\"level\":{$heading_level}\} -->\n<{$element_info['type']}>{$headers[$element_info['key']]}</{$element_info['type']}>\n<!-- /wp:heading -->\n";
+            $heading_content = "<!-- wp:heading {\"level\":{$heading_level}} -->\n<{$element_info['type']}>{$headers[$element_info['key']]}</{$element_info['type']}>\n<!-- /wp:heading -->\n";
             array_push( $content_array, $heading_content );
 
         }
@@ -222,8 +222,6 @@ for( $x = 0; $x < $num_posts_to_generate; $x++ ){
         } 
 
     }
-
-    shuffle( $content_array );
 
     $post_content = implode( "", $content_array );
 
