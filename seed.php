@@ -186,7 +186,7 @@ for( $x = 0; $x < $num_posts_to_generate; $x++ ){
                                             'type'  => $header_type,
                                             'key'   => $header_count
                                         );
-                        array_splice( $structure_array, $x, 0, [$element_info]);
+                        array_splice( $structure_array, $el_count, 0, [$element_info]);
                         //increments
                         $last_header_level          = $header_level;
                         $paras_since_last_header    = 0;
