@@ -21,6 +21,37 @@
         "Polanyi's Tacit and Explicit knowledge explained",
         "The rise and fall of Ivan Drago",
         "How I fell in love with a Broccoli woman",
-        "Hit Les - over the top!"
+        "Hit Les - over the top!",
+        "Looking for the heart of Saturday night...",
+        "Manifesto del Futurismo",
+        "The History of Derry, Maine",
+        "Larry Renwick went axe-happy on a trout farm: He killed 60 fish",
+        "Writers who use subtext are all cowards",
+        "The Entertainers"
+    );
+
+    $headers = array(
+        "Less is more",
+        "Clearing",
+        "Readiness-to-hand as a mode of Being",
+        "Dasein",
+        "Existenz",
+        "Have you met the temp?",
+        "Pouvoir/Savoir",
+        "The Panoptican",
+        "Real velourrrrrrr...",
+        "The Gosling vs. Reynolds debate",
+        "Fire, walk with me",
+        "Imagined Communities",
+        "Hello, hello there, is this Martha?",
+        "Cover your shame Liz",
+        "Author, Dreamweaver, Visionary. Plus Actor.",
+        "The most significant televisual event since Quantum Leap",
+        "I'm not Jesus Christ. I've come to accept that now.",
+        "Cool it, Sanchez, or you'll get a knuckle supper!",
+        "Maggots!? Maggots. Maggots. Maggots. Maggots.",
+        "You'll be lucky if you get any of my lovely chicken if you keep up this kind of behaviour",
+        "I've got two words for you: telly kinesis",
+        "You win again Gravity!"
     );
 ?>

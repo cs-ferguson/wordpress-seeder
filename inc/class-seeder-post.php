@@ -75,7 +75,9 @@ class SeederPost {
     public function uploadToWordPress() {
         echo "\nCreating post {$this->post_title}\n";
         $escaped_post_title = escapeshellarg( $this->post_title );
-        $create_post_cmd = "wp post create --post_title={$escaped_post_title} --post_content='{$this->getModifiedContent()}' --post_status='publish' --post_date='{$this->generateDate()}' --porcelain";
+        $escaped_post_content = escapeshellarg( $this->getModifiedContent() );
+        // var_dump( $escaped_post_content );
+        $create_post_cmd = "wp post create --post_title={$escaped_post_title} --post_content={$escaped_post_content} --post_status='publish' --post_date='{$this->generateDate()}' --porcelain";
         $new_post_id = (int) shell_exec($create_post_cmd);
         $this->wp_post_id = $new_post_id;
         echo "\nNew post ID {$new_post_id} created.\n";
