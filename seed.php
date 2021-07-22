@@ -110,10 +110,16 @@ if( is_array($taxonomies) ){
         if ( is_array($taxonomy_terms) ){
             foreach( $taxonomy_terms as $term_name ){
 
-                echo "\nCreating term {$term_name} in {$taxonomy_name} taxonomy...\n";
+                //check if exists 
+                $check_term_exists_cmd = "wp term list {$taxonomy_name} --name='{$term_name}' --format=ids";
+                $matching_term_ids = shell_exec($check_term_exists_cmd);
 
-                $create_term_cmd = "wp term create {$taxonomy_name} '{$term_name}' --porcelain";
-                $new_term_id = (int) shell_exec($create_term_cmd);
+                if( ! $matching_term_ids ) {
+                    echo "\nCreating term {$term_name} in {$taxonomy_name} taxonomy...\n";
+
+                    $create_term_cmd = "wp term create {$taxonomy_name} '{$term_name}' --porcelain";
+                    $new_term_id = (int) shell_exec($create_term_cmd);
+                }
             }
         }
 
