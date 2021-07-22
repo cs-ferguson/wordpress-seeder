@@ -57,14 +57,34 @@ $allowed_filetypes = array('jpg','jpeg','gif','png');
 $seed_images_directory = '/var/_seeder/images/';
 $seed_directory_iterator = new DirectoryIterator($seed_images_directory);
 foreach ($seed_directory_iterator as $fileinfo) {
-    if (!$fileinfo->isDot() && in_array( $fileinfo->getExtension(), $allowed_filetypes )) {
-        $file_url =  $seed_images_directory . $fileinfo->getFilename();
 
-        echo "Importing {$fileinfo->getFilename()} ...\n";
+    $extension = $fileinfo->getExtension();
+
+    if (!$fileinfo->isDot() && in_array( $extension, $allowed_filetypes )) {
+
+        $filename   = $fileinfo->getFilename();
+        $file_url   = $seed_images_directory . $filename;
+        $basename   = $fileinfo->getBasename( $extension );
+
+        // get existing files that match 
+        $get_matching_posts_cmd = "wp post list --post_type=attachment --post_title=\"\" --format=ids";
+        $existing_post_ids      = shell_exec($get_matching_posts_cmd);
+
+        if( $existing_post_ids ) {
+
+            $existing_image_posts   = explode( " ", $existing_post_ids );
+
+            $media_id = (int) $existing_image_posts[0];
+            echo "Image {$filename} already exists at Post ID {$media_id}.\n";
+
+        } else {
+
+            echo "Importing {$filename} ...\n";
         
-        $import_media_cmd = "wp media import $file_url --porcelain";
-        $media_id = shell_exec($import_media_cmd);
-        $media_id = (int) $media_id;
+            $import_media_cmd = "wp media import $file_url --porcelain";
+            $media_id = shell_exec($import_media_cmd);
+            $media_id = (int) $media_id;
+        }
 
         /* retrieve media url */
         $get_media_url_cmd = "wp post meta pluck $media_id _wp_attachment_metadata file";
