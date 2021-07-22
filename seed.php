@@ -58,7 +58,10 @@ $seed_images_directory = '/var/_seeder/images/';
 $seed_directory_iterator = new DirectoryIterator($seed_images_directory);
 foreach ($seed_directory_iterator as $fileinfo) {
     if (!$fileinfo->isDot() && in_array( $fileinfo->getExtension(), $allowed_filetypes )) {
-        $file_url =  $seed_images_directory . $fileinfo->getFilename();
+        $file_url   = $seed_images_directory . $fileinfo->getFilename();
+        $basename   = $fileinfo->getFilename( $fileinfo->getExtension() );
+
+        echo $basename;
 
         echo "Importing {$fileinfo->getFilename()} ...\n";
         
