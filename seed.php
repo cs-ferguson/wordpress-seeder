@@ -53,28 +53,29 @@ function getHeaderLevel( $last_header_level ) {
 
 /*Upload images and store filename in array */
 $media_info = array();
-$allowed_filetypes = array('jpg','jpeg','gif','png');
+$allowed_filetypes = array('jpg','jpeg','gif','png','webp');
 $seed_images_directory = '/var/_seeder/images/';
 $seed_directory_iterator = new DirectoryIterator($seed_images_directory);
+
+// get existing images as array (can't get each as cannot search post list by title!)
+$get_attachments_cmd    = "wp post list --post_type=attachment --format=json --fields=ID,post_title";
+$existing_attachments   = json_decode( shell_exec($get_attachments_cmd) );
+
+
 foreach ($seed_directory_iterator as $fileinfo) {
 
     $extension = $fileinfo->getExtension();
 
     if (!$fileinfo->isDot() && in_array( $extension, $allowed_filetypes )) {
 
-        $filename   = $fileinfo->getFilename();
-        $file_url   = $seed_images_directory . $filename;
-        $basename   = $fileinfo->getBasename( $extension );
+        $filename       = $fileinfo->getFilename();
+        $file_url       = $seed_images_directory . $filename;
+        $basename       = str_replace( '.', '', $fileinfo->getBasename( $extension ) );
+        $existing_key   = array_search( $basename, array_column( $existing_attachments, 'post_title') );
 
-        // get existing files that match 
-        $get_matching_posts_cmd = "wp post list --post_type=attachment --post_title=\"\" --format=ids";
-        $existing_post_ids      = shell_exec($get_matching_posts_cmd);
+        if( $existing_key !== false ) {
 
-        if( $existing_post_ids ) {
-
-            $existing_image_posts   = explode( " ", $existing_post_ids );
-
-            $media_id = (int) $existing_image_posts[0];
+            $media_id = (int) $existing_attachments[$existing_key]->ID;
             echo "Image {$filename} already exists at Post ID {$media_id}.\n";
 
         } else {
